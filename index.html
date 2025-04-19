@@ -232,27 +232,23 @@
           };
 
           // Функция за споделяне на резултати
-          const shareResults = async () => {
+          const shareResults = () => {
   const resultText = `Ниво на алкохол в кръвта: ${bac.toFixed(3)}%\nВреме до изтрезняване: ${Math.floor(soberTime)} ч ${Math.round((soberTime - Math.floor(soberTime)) * 60)} мин\nЕфекти: ${effectLevel}`;
 
+  const textarea = document.createElement("textarea");
+  textarea.value = resultText;
+  document.body.appendChild(textarea);
+  textarea.select();
+
   try {
-    if (navigator.share) {
-      await navigator.share({
-        title: 'Моят резултат от КонтролКо',
-        text: resultText
-      });
-      setToast({ show: true, message: '✅ Споделено успешно!' });
-    } else if (navigator.clipboard) {
-      await navigator.clipboard.writeText(resultText);
-      setToast({ show: true, message: '📋 Копирано в клипборда!' });
-    } else {
-      alert("Резултат:\n" + resultText);
-      setToast({ show: true, message: '🔍 Показан е резултатът в прозореца' });
-    }
-  } catch (error) {
-    console.error("Грешка при споделяне:", error);
-    setToast({ show: true, message: '❌ Неуспешно споделяне. Копирай ръчно.' });
+    document.execCommand('copy');
+    setToast({ show: true, message: '📋 Резултатът е копиран!' });
+  } catch (err) {
+    console.error("Неуспешно копиране:", err);
+    setToast({ show: true, message: '❌ Неуспешно копиране. Моля, копирай ръчно.' });
   }
+
+  document.body.removeChild(textarea);
 };
 
           // Стилове
