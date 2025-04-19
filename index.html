@@ -233,30 +233,27 @@
 
           // Функция за споделяне на резултати
           const shareResults = async () => {
-            try {
-              const resultText = `Ниво на алкохол в кръвта: ${bac.toFixed(3)}%\nВреме до изтрезняване: ${Math.floor(soberTime)} ч ${Math.round((soberTime - Math.floor(soberTime)) * 60)} мин\nЕфекти: ${effectLevel}`;
-              
-              // Проверяваме дали браузърът поддържа Web Share API
-              if (navigator && navigator.share) {
-                await navigator.share({
-                  title: 'Моят резултат от КонтролКо',
-                  text: resultText
-                });
-                setToast({ show: true, message: 'Резултатът е споделен успешно!' });
-              } else if (navigator && navigator.clipboard) {
-                // Копираме резултата в клипборда като алтернатива
-                await navigator.clipboard.writeText(resultText);
-                setToast({ show: true, message: 'Резултатът е копиран в клипборда!' });
-              } else {
-                // Ако нито един API не е наличен, просто показваме съобщение
-                alert("Резултат: " + resultText);
-                setToast({ show: true, message: 'Показан е резултатът!' });
-              }
-            } catch (error) {
-              console.error("Грешка при споделяне:", error);
-              setToast({ show: true, message: 'Грешка при споделяне' });
-            }
-          };
+  const resultText = `Ниво на алкохол в кръвта: ${bac.toFixed(3)}%\nВреме до изтрезняване: ${Math.floor(soberTime)} ч ${Math.round((soberTime - Math.floor(soberTime)) * 60)} мин\nЕфекти: ${effectLevel}`;
+
+  try {
+    if (navigator.share) {
+      await navigator.share({
+        title: 'Моят резултат от КонтролКо',
+        text: resultText
+      });
+      setToast({ show: true, message: '✅ Споделено успешно!' });
+    } else if (navigator.clipboard) {
+      await navigator.clipboard.writeText(resultText);
+      setToast({ show: true, message: '📋 Копирано в клипборда!' });
+    } else {
+      alert("Резултат:\n" + resultText);
+      setToast({ show: true, message: '🔍 Показан е резултатът в прозореца' });
+    }
+  } catch (error) {
+    console.error("Грешка при споделяне:", error);
+    setToast({ show: true, message: '❌ Неуспешно споделяне. Копирай ръчно.' });
+  }
+};
 
           // Стилове
           const styles = {
