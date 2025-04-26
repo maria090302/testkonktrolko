@@ -90,13 +90,13 @@
           const [activeTab, setActiveTab] = useState('calculator');
           const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
           
-          // Резултати
+          // РезултаТИ
           const [bac, setBac] = useState(0);
           const [soberTime, setSoberTime] = useState(0);
           const [effectLevel, setEffectLevel] = useState('');
           const [toast, setToast] = useState({ show: false, message: '' });
           
-          // Референция за елемента с резултати (за screenshot)
+          // Референция за елемента с резултаТИ (за screenshot)
           const resultsRef = useRef(null);
 
           // Адаптивност при преоразмеряване на прозореца
@@ -231,7 +231,7 @@
             setToast({ show: true, message: 'Всички стойности са нулирани!' });
           };
 
-          // Функция за споделяне на резултати
+          // Функция за споделяне на резултаТИ
           const shareResults = () => {
   const resultText = `Ниво на алкохол в кръвта: ${bac.toFixed(3)}%\nВреме до изтрезняване: ${Math.floor(soberTime)} ч ${Math.round((soberTime - Math.floor(soberTime)) * 60)} мин\nЕфекти: ${effectLevel}`;
 
